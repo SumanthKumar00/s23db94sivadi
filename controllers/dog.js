@@ -31,4 +31,18 @@ exports.dog_list = async function(req, res) {
     res.send(`{"error": ${err}}`);
     }
     };
+
+// VIEWS
+// Handle a show all view
+exports.dog_view_all_Page = async function(req, res) {
+    try{
+    thedog = await dog.find();
+    res.render('dog', { title: 'dog Search Results', results: thedog });
+    }
+    catch(err){
+    res.status(500);
+    res.send(`{"error": ${err}}`);
+    }
+    };
+    
     

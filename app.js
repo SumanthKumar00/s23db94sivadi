@@ -4,11 +4,21 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+require('dotenv').config();
+const connectionString = process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true});
+
 var indexRouter = require('./routes/index');
 var dogRouter = require('./routes/dog');
 var boardRouter = require('./routes/board');
 var chooseRouter = require('./routes/choose');
 var usersRouter = require('./routes/users');
+var resourceRouter = require('./routes/resource');
+
+
+var dog = require('./models/dog');
+
 
 var app = express();
 
@@ -27,7 +37,36 @@ app.use('/dog', dogRouter);
 app.use('/board', boardRouter);
 app.use('/choose', chooseRouter);
 app.use('/users', usersRouter);
+app.use('/resource', resourceRouter);
 // catch 404 and forward to error handler
+// We can seed the collection if needed on server start
+async function recreateDB(){
+  // Delete everything
+  await dog.deleteMany();
+  let instance1 = new dog({dog_name:"rocky", dog_color:'skin', dog_age:2});
+  instance1.save().then(doc=>{
+  console.log("First object saved")}
+  ).catch(err=>{
+  console.error(err)
+  });
+  
+  let instance2 = new dog({dog_name:"blacky", dog_color:'black', dog_age:4});
+  instance2.save().then(doc=>{
+  console.log("Second object saved")}
+  ).catch(err=>{
+  console.error(err)
+  });
+  
+  let instance3 = new dog({dog_name:"spider", dog_color:'white', dog_age:5});
+  instance3.save().then(doc=>{
+  console.log("Third object saved")}
+  ).catch(err=>{
+  console.error(err)
+  });
+  }
+  let reseed = true;
+  if (reseed) {recreateDB();}
+  //
 app.use(function(req, res, next) {
   next(createError(404));
 });

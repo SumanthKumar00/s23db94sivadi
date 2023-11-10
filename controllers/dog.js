@@ -33,10 +33,10 @@ exports.dog_create_post = async function(req, res) {
     // We are looking for a body, since POST does not have query parameters.
     // Even though bodies can be in many different formats, we will be picky
     // and require that it be a json object
-    // {"dog_type":"goat", "cost":12, "size":"large"}
+    // {"dog_name":"goat", "dog_color":12, "dog_age":"large"}
     document.dog_name = req.body.dog_name;
-    document.dog_author = req.body.dog_author;
-    document.dog_pages = req.body.dog_pages;
+    document.dog_color = req.body.dog_color;
+    document.dog_age = req.body.dog_age;
     try{
     let result = await document.save();
     res.send(result);
@@ -72,6 +72,24 @@ exports.dog_delete = function(req, res) {
  res.send('NOT IMPLEMENTED: dog delete DELETE ' + req.params.id);
 };
 // Handle dog update form on PUT.
-exports.dog_update_put = function(req, res) {
- res.send('NOT IMPLEMENTED: dog update PUT' + req.params.id);
+exports.dog_update_put = async function(req, res) {
+console.log(`update on id ${req.params.id} with body
+${JSON.stringify(req.body)}`)
+try {
+let toUpdate = await dog.findById( req.params.id)
+// Do updates of properties
+if(req.body.dog_name)
+toUpdate.dog_name = req.body.dog_name;
+if(req.body.dog_color) toUpdate.dog_color = req.body.dog_color;
+if(req.body.dog_age) toUpdate.dog_age = req.body.dog_age;
+if(req.body.checkboxsale) toUpdate.sale = true;
+else toUpdate.same = false;
+let result = await toUpdate.save();
+console.log("Sucess " + result)
+res.send(result)
+} catch (err) {
+res.status(500)
+res.send(`{"error": ${err}: Update for id ${req.params.id}
+failed`);
+}
 };

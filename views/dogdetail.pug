@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    h1= title
+    - let dogid = toShow._id
+    - let dog_name = toShow.dog_name
+    - let dogcolor = toShow.dog_color
+    - let dogage = toShow.dog_age
+    div
+        div.row
+            div(class='dogAttr mr-3') dog ID is:
+            div #{dogid}
+        div.row
+            div(class='dogAttr mr-3') dog name is:
+            div #{dog_name}
+        div.row
+            div(class='dogAttr mr-3') dog age is:
+            div #{dogage}
+        div.row
+            div(class='dogAttr mr-3') dog color is:
+            div #{dogcolor}   

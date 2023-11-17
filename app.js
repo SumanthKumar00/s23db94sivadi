@@ -8,6 +8,34 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var dogRouter = require('./routes/dog');
 var resourceRouter = require('./routes/resource');
+
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+// passport config
+// Use the existing connection
+// The Account model
+var Account = require('./models/Account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+  Account.findOne({ username: username })
+  .then(function (user){
+  if (err) { return done(err); }
+  if (!user) {
+  return done(null, false, { message: 'Incorrect username.' });
+  }
+  if (!user.validPassword(password)) {
+  return done(null, false, { message: 'Incorrect password.' });
+  }
+  return done(null, user);
+  })
+  .catch(function(err){
+  return done(err)
+  })
+  })
+  )
  
 require('dotenv').config();
 const connectionString =process.env.MONGO_CON
@@ -30,6 +58,15 @@ app.use('/users', usersRouter);
 app.use('/dog', dogRouter);
 app.use('/resource',resourceRouter);
 app.use();
+
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+  }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(path.join(__dirname, 'public')))
  
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

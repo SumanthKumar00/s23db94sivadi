@@ -2,7 +2,12 @@ body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
-
+.dogAttr {
+  background-color: aquamarine;
+  width: 120px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: brown;
+  }
 a {
   color: #00B7FF;
 }

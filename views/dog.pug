@@ -3,13 +3,19 @@ extends layout
 block content
   h1= title
   - let items = results;
+    button.btn( class="btn-success", onclick= `dispatch(\"/dog/create")`) Create
  
   div(class="container-fluid")
     div(class="row m-1")
       each item in items
         - let destination = `dispatch("/dog/update?id=${item._id}")`
-        div(class="row-sm-2 m-1") Item #{item.dog_name}(#{item.dog_color}) is #{item.dog_age}
-        button.btn(class="btn-primary ml-1", onclick=destination) Update
+        div(class="row-sm-2 m-1")
+          button.btn( class="btn-primary ml-1",  onclick= `dispatch(\"/dog/update?id=${item._id}\")`) Update
+          button.btn( class="btn-danger ml-1",  onclick= `dispatch(\"/dog/delete?id=${item._id}\")`) Delete
+          button.btn( class="btn-warning ml-1", onclick= `dispatch(\"/dog/detail?id=${item._id}\")`) Detail
+          p Name is #{item.dog_name}
+          p Type is #{item.dog_color}
+          p Cost is #{item.dog_age}
  
   script.
     function dispatch(path) {

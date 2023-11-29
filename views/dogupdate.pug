@@ -6,14 +6,14 @@ block content
     h2 No instance of this detail
   else  
    - let dogid = toShow._id
-    - let dogname = toShow.dog_name
-    - let dogcolor = toShow.dog_color
-    - let dogage = toShow.adog_ge
+    - let dog_name = toShow.dog_name
+    - let dog_color = toShow.dog_color
+    - let dog_age = toShow.dog_age
  
     div.row(class='mb-2')
      div.mr-1 ID is
      div #{dogid}
-    - let actionid = "/resources/bank/" + dogid
+    - let actionid = "/resources/dog/" + dogid
     form(id='dogForm', action= actionid, method="PUT")
      div.form-group
         label.dogAttr(for='dog_name') Dog  Name
@@ -33,7 +33,7 @@ block content
         method:'PUT',
         body: new URLSearchParams(new FormData(event.target)) // event.target is the form
       }).then((resp) => {
-        return resp.text(); // or resp.text() or whatever the server sends
+        return resp.json(); // or resp.text() or whatever the server sends
       }).then((body) => {
         alert("Update succeded")
         window.location.href='/dog'

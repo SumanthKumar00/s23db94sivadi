@@ -5,9 +5,9 @@ block content
     h2 No instance to delete
   else
     - let dogid = toShow._id
-    - let dogname = toShow.dog_name
-    - let dogcolor = toShow.dog_color
-    - let dogage = toShow.adog_ge
+    - let dog_name = toShow.dog_name
+    - let dog_color = toShow.dog_color
+    - let dog_age = toShow.dog_age
     - let actionid = "/resource/dog/" + dogid
  
     script.
@@ -16,16 +16,16 @@ block content
     div
       div.row
         div(class='dogAttr mr-3') dog ID is:
-          div #{dogid}
+          div #{dog_id}
       div.row
         div(class='dogAttr mr-3') dog name is:
-          div #{dogname}
+          div #{dog_name}
       div.row
         div(class='dogAttr mr-3') dog color is:
-          div #{dogcolor}
+          div #{dog_color}
       div.row
         div(class='dogAttr mr-3') dog age is:
-          div #{dogage}
+          div #{dog_age}
       button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
       button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
  
@@ -52,4 +52,3 @@ block content
           alert("Delete failed " + error );
         });
       }
-has context menuComposeParagraph

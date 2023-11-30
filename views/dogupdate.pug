@@ -1,11 +1,8 @@
 extends layout
  
 block content
-  h1= title
-  if(toShow == null)
-    h2 No instance of this detail
-  else  
-   - let dogid = toShow._id
+  h1= title 
+    - let dogid = toShow._id
     - let dog_name = toShow.dog_name
     - let dog_color = toShow.dog_color
     - let dog_age = toShow.dog_age
@@ -13,33 +10,34 @@ block content
     div.row(class='mb-2')
      div.mr-1 ID is
      div #{dogid}
-    - let actionid = "/resources/dog/" + dogid
+
+    - let actionid = "/resource/dog/" + dogid
     form(id='dogForm', action= actionid, method="PUT")
-     div.form-group
+      div.form-group
         label.dogAttr(for='dog_name') Dog  Name
         input#dog_name(type='text', name='dog_name', value= dog_name )
-     div.form-group
+      div.form-group
         label.dogAttr(for='dog_color') Dog Color
         input#dog_color(type='text', name='dog_color', value= dog_color )
-     div.form-group
+      div.form-group
         label.dogAttr(for='dog_age') Dog Age
         input#dog_age(type='number', name='dog_age', value= dog_age )
-     input(type="submit")
+      input(type="submit")
     script.
-     document.forms['dogForm'].addEventListener('submit', (event) => {
-      event.preventDefault();
+      document.forms['dogForm'].addEventListener('submit', (event) => {
+        event.preventDefault();
      // TODO do something here to show user that form is being submitted
-      fetch(event.target.action, {
-        method:'PUT',
-        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
-      }).then((resp) => {
-        return resp.json(); // or resp.text() or whatever the server sends
-      }).then((body) => {
-        alert("Update succeded")
-        window.location.href='/dog'
+        fetch(event.target.action, {
+          method:'PUT',
+          body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        }).then((resp) => {
+          return resp.text(); // or resp.text() or whatever the server sends
+        }).then((body) => {
+          alert("Update succeded")
+          window.location.href='/dog'
      // TODO handle body
-      }).catch((error) => {
+        }).catch((error) => {
      // TODO handle error
-        alert("Update failed " + error )
+          alert("Update failed " + error )
+        });
       });
-     });

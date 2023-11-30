@@ -7,10 +7,10 @@ block content
             label.dogAttr(for='dog_name') dog name
             input#dog_name(type='text', name='dog_name')
         div.form-group
-            label.dogAttr(for='dog_color') dog dog_color
+            label.dogAttr(for='dog_color') dog_color
             input#dog_color(type='text', name='dog_color')
         div.form-group
-            label.dogAttr(for='dog_age') dog dog_age
+            label.dogAttr(for='dog_age') dog_age
             input#dog_age(type='number', name='dog_age')
         input(type="submit")
  
@@ -25,6 +25,7 @@ block content
                 return resp.json(); // or resp.text() or whatever the server sends
             }).then((body) => {
                 alert("Save succeded")
+                window.location='/dog'
                 // TODO handle body
             }).catch((error) => {
                 // TODO handle error
